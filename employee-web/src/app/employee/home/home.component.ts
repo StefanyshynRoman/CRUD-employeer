@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   constructor(private  employeeService:EmployeeService) {
   }
   employees: Employee [] = []
+  filteredEmployees:Employee[]=[];
 
   ngAfterViewInit(): void {
   }
@@ -35,6 +36,14 @@ export class HomeComponent implements OnInit {
       this.employees=data;
       this.dataSource = new MatTableDataSource<Employee>(data);
     })
+  }
+
+  searchEmployee(input:any){
+    this.filteredEmployees=this.employees.filter(item=>item.name.toLowerCase().includes(input.toLowerCase())
+      || item.email.toLowerCase().includes(input.toLowerCase())
+      || item.salary.toString().includes(input));
+    this.dataSource = new MatTableDataSource<Employee>(this.filteredEmployees);
+
   }
 }
 
